@@ -1,0 +1,39 @@
+.poster {
+  &__block{
+    display: flex;
+    flex-direction: column;
+    padding: 0 10rpx;
+  }
+  &__img {
+  width: 160rpx;
+  height: 220rpx;
+  margin-bottom: 10rpx;
+  border-radius: 10rpx;
+    &--music{
+      width: 160rpx;
+      height: 160rpx;
+      margin-bottom: 10rpx;
+      border-radius: 10rpx;
+    }
+  }
+  &__name{
+    margin: 10rpx 0 5rpx 0;
+    width: 170rpx;
+    line-height: 24rpx;
+    color: #333333;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 24rpx;
+  }
+  &__ratingbar{
+    display: flex;
+    flex-direction: row;
+    .ratingbar{
+      &__score{
+        color: #999999;
+        font-size: 20rpx;
+      }
+    }
+  }
+}

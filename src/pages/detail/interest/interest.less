@@ -1,0 +1,71 @@
+.interests{
+  &__item{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: 30rpx 30rpx 0;
+    &:after {
+      position: absolute; 
+      content: ''; 
+      width: 100%; 
+      left: 0; 
+      bottom: 0; 
+      height: 1px; 
+      background-color: #e6e6e6; 
+      transform: scale(1,0.2); 
+      transform-origin: center bottom;
+    }
+  }
+  &__user{
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 20rpx; 
+    .user{
+      &__avatar{
+        height: 60rpx;
+        width: 60rpx;
+        image{
+          height: 100%;
+          width: 100%;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+  &__right{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-left: 20rpx;
+    .right{
+      &__name{
+        font-size: 30rpx;
+      }
+      &__rating{
+        display: flex;
+        flex-direction: row;
+      }
+    }
+  }
+  &__comment{
+    font-size: 26rpx;
+    font-weight: 300;
+  }
+  &__vote{
+    display: flex;
+    flex-direction: row;
+    padding: 20rpx 0 30rpx 0;
+    .vote{
+      &__img{
+        width: 32rpx;
+        height: 32rpx;
+        vertical-align: middle;
+      }
+      &__count{
+        padding-left: 10rpx;
+        font-size:22rpx; 
+        color: #999999;
+      }
+    }
+  }
+}

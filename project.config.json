@@ -1,0 +1,49 @@
+{
+	"miniprogramRoot": "dist/",
+	"projectname": "win-tora-douban",
+	"description": "",
+	"appid": "wx2599d607435e4f65",
+	"setting": {
+		"urlCheck": false,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true,
+		"autoAudits": false
+	},
+	"compileType": "miniprogram",
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"miniprogram": {
+			"current": 1,
+			"list": [
+				{
+					"id": -1,
+					"name": "more",
+					"pathName": "pages/more/more",
+					"query": "id=tv"
+				},
+				{
+					"id": 1,
+					"name": "detail",
+					"pathName": "pages/detail/detail",
+					"query": "type=movie&id=26796664"
+				}
+			]
+		}
+	}
+}
