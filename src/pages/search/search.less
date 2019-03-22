@@ -6,14 +6,25 @@
       padding: 14rpx;
       background-color: #f1a3c7;
       .form{
-        &__input{
+        &__container{
+          display: flex;
+          flex-direction: row;
           height: 60rpx;
           width: 100%;
           border-radius: 10rpx;
-          text-align: center;
-          font-size: 24rpx;
-          color: #999;
           background-color: #fff;
+          image{
+            height: 40rpx;
+            width: 40rpx;
+            margin-top: 10rpx;
+            padding-right: 10rpx;
+          }
+          input{
+            flex: 1;
+            height: 100%;
+            font-size: 24rpx;
+            color: #999;
+          }
         }
       }
     }

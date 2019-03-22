@@ -16,7 +16,8 @@ class App extends Component {
       'pages/movie/movie',
       'pages/more/more',
       'pages/detail/detail',
-      'pages/search/search'
+      'pages/search/search',
+      'pages/list/list'
     ],
     window: {
       backgroundTextStyle: "light",
@@ -33,7 +34,7 @@ class App extends Component {
           selectedIconPath: "./images/icon/movie-active.png"
         },
         {
-          pagePath: "pages/movie/movie",
+          pagePath: "pages/list/list",
           text: "榜单",
           iconPath: "./images/icon/list.png",
           selectedIconPath: "./images/icon/list-active.png"

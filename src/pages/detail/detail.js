@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { httpBlock } from '../../utils/http'
+import { http } from '../../utils/http'
 import { g_requestApi } from '../../globalData'
 import { View, Image, Text, Block } from '@tarojs/components'
 import Star from '../../components/star/star';
@@ -25,11 +25,15 @@ export default class Detail extends Component {
         reviews: {},
         photos: {},
         type: this.$router.params.type
-      }
+      },
+      showIntro: false
     }
   }
 
   componentWillMount() {
+    Taro.showLoading({
+      title: '正在加载'
+    })
     let _this = this
     const id = this.$router.params.id
     const type = this.$router.params.type
@@ -81,24 +85,21 @@ export default class Detail extends Component {
         })
       }
     })
-    const rating = `${g_requestApi}${type}/${id}/rating?apiKey=054022eaeae0b00e0fc068c0c0a2102a`
-    const trailers = `${g_requestApi}${type}/${id}/trailers?apiKey=054022eaeae0b00e0fc068c0c0a2102a`
-    const interests = `${g_requestApi}${type}/${id}/interests?start=0&count=4&apiKey=054022eaeae0b00e0fc068c0c0a2102a`
-    const recommendations = `${g_requestApi}${type}/${id}/recommendations?apiKey=054022eaeae0b00e0fc068c0c0a2102a`
-    const reviews = `${g_requestApi}${type}/${id}/reviews?start=0&count=20&apiKey=054022eaeae0b00e0fc068c0c0a2102a`
-    const photos = `${g_requestApi}${type}/${id}/photos?start=0&count=20&apiKey=054022eaeae0b00e0fc068c0c0a2102a`
-
-    if (type === 'movie' || type === 'tv') {
-      httpBlock(trailers, 'trailers', this.processData)
-      httpBlock(photos, 'photos', this.processData)
+    const detail = ['rating', 'interests', 'recommendations', 'reviews'];
+    for (let ele of detail) {
+      let url = `${g_requestApi}${type}/${id}/${ele}?apiKey=054022eaeae0b00e0fc068c0c0a2102a`
+      http.request(url).then((res) => {
+        this.processData(ele, res)
+      })
     }
-    httpBlock(rating, 'rating', this.processData)
-    httpBlock(interests, 'interests', this.processData)
-    httpBlock(recommendations, 'recommendations', this.processData)
-    httpBlock(reviews, 'reviews', this.processData)
-    Taro.showLoading({
-      title:'正在加载'
-    })
+    if (type === 'movie' || type === 'tv') {
+      for (let ele of ['trailers', 'photos']) {
+        let url = `${g_requestApi}${type}/${id}/${ele}?apiKey=054022eaeae0b00e0fc068c0c0a2102a`
+        http.request(url).then((res) => {
+          this.processData(ele, res)
+        })
+      }
+    }
   }
 
   componentDidMount() {
@@ -121,6 +122,12 @@ export default class Detail extends Component {
     console.log(this)
   })
 
+  showIntro = () => {
+    this.setState({
+      showIntro: !this.state.showIntro
+    })
+  }
+
   //回调赋值
   processData = (key, data) => {
     this.state.otherInfo[key] = data
@@ -130,7 +137,7 @@ export default class Detail extends Component {
   }
 
   render() {
-    const { title, summary, itemDetail, otherInfo, pageBackgroundColor, review, recommend } = this.state
+    const { title, summary, itemDetail, otherInfo, pageBackgroundColor, review, recommend, showIntro } = this.state
     const style = {
       backgroundColor: pageBackgroundColor
     }
@@ -204,7 +211,8 @@ export default class Detail extends Component {
           itemDetail.intro ? (
             <View class="detail__intro">
               <Text class="intro__title">简介</Text>
-              <Text class="intro__content">{itemDetail.intro}</Text>
+              <Text class={showIntro ? 'intro__content' : 'intro__content intro__content--hidden'}>{itemDetail.intro}</Text>
+              <Text class="intro__action" onClick={this.showIntro}>{showIntro ? '收起' : '展开'}</Text>
             </View>
           ) : null
         }

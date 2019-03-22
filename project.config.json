@@ -1,6 +1,6 @@
 {
 	"miniprogramRoot": "dist/",
-	"projectname": "win-tora-douban",
+	"projectname": "douban",
 	"description": "",
 	"appid": "wx2599d607435e4f65",
 	"setting": {

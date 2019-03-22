@@ -2,14 +2,60 @@
   padding: 14rpx;
   background-color: #f1a3c7;
   .form{
-    &__input{
+    &__view{
+      display: flex;
+      flex-direction: row;
       height: 60rpx;
       width: 100%;
+      align-items: center;
+      justify-content: center;
       border-radius: 10rpx;
-      text-align: center;
       font-size: 24rpx;
       color: #999;
       background-color: #fff;
+      image{
+        height: 30rpx;
+        width: 30rpx;
+        padding-right: 10rpx;
+      }
+    }
+  }
+}
+.movie{
+  &__block{
+    display: flex;
+    flex-direction: column;
+    .block{
+      &__bar{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 30rpx 20rpx 0rpx 20rpx;
+        .bar{
+          &__title{
+            font-size: 30rpx;
+            font-weight: 600;
+            color: #333333;
+          }
+          &__more{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .more{
+              &__text{
+                font-size: 28rpx;
+                font-weight: 300;
+                color: #f1a3c7;
+              }
+              &__icon{
+                width: 16rpx;
+                height: 20rpx;
+                padding-left: 6rpx; 
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

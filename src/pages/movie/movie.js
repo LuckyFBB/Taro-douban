@@ -1,8 +1,10 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Form, Input } from '@tarojs/components'
+import { View, Image } from '@tarojs/components'
 import { g_requestApi } from '../../globalData'
-import { httpBlock } from '../../utils/http'
+import { httpBlock, http } from '../../utils/http'
 import MovieBlock from './block/block'
+import search from '../../images/icon/search.png'
+import arrowRightPink from '../../images/icon/arrow-right-pink.png'
 import './movie.less'
 
 export default class Movie extends Component {
@@ -25,22 +27,41 @@ export default class Movie extends Component {
   }
 
   componentWillMount() {
-    const movie_showing = `${g_requestApi}subject_collection/movie_showing/items?start=0&count=20&apiKey=054022eaeae0b00e0fc068c0c0a2102a`
-    const movie_hot_gaia = `${g_requestApi}subject_collection/movie_hot_gaia/items?start=0&count=20&apiKey=054022eaeae0b00e0fc068c0c0a2102a`
-    const tv_variety_show = `${g_requestApi}subject_collection/tv_variety_show/items?start=0&count=20&apiKey=054022eaeae0b00e0fc068c0c0a2102a`
-    const tv_hot = `${g_requestApi}subject_collection/tv_hot/items?start=0&count=20&apiKey=054022eaeae0b00e0fc068c0c0a2102a`
-    const book_bestseller = `${g_requestApi}subject_collection/book_bestseller/items?start=0&count=20&apiKey=054022eaeae0b00e0fc068c0c0a2102a`
-    const music_single = `${g_requestApi}subject_collection/music_single/items?start=0&count=20&apiKey=054022eaeae0b00e0fc068c0c0a2102a`
-
-    httpBlock(movie_showing, 'movie_showing', this.processData)
-    httpBlock(movie_hot_gaia, 'movie_hot_gaia', this.processData)
-    httpBlock(tv_variety_show, 'tv_variety_show', this.processData)
-    httpBlock(tv_hot, 'tv_hot', this.processData)
-    httpBlock(book_bestseller, 'book_bestseller', this.processData)
-    httpBlock(music_single, 'music_single', this.processData)
-    Taro.showLoading({
-      title:'正在加载'
+    Taro.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.userLocation']) {
+          Taro.authorize({
+            scope: 'scope.userLocation'
+          })
+        }
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          Taro.getUserInfo({
+            success: res => {
+              // 可以将 res 发送给后台解码出 unionId
+              console.log(res.userInfo)
+              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+              // 所以此处加入 callback 以防止这种情况
+              if (this.userInfoReadyCallback) {
+                this.userInfoReadyCallback(res)
+              }
+            }
+          })
+        }
+      }
     })
+
+    Taro.showLoading({
+      title: '正在加载'
+    })
+
+    const movieBlock = ['movie_showing', 'movie_hot_gaia', 'tv_variety_show', 'tv_hot', 'book_bestseller', 'music_single']
+    for (let element of movieBlock) {
+      let url = `${g_requestApi}subject_collection/${element}/items?start=0&count=20&apiKey=054022eaeae0b00e0fc068c0c0a2102a`
+      http.request(url).then((res) => {
+        this.processData(element, res)
+      })
+    }
   }
 
   componentDidMount() {
@@ -50,7 +71,14 @@ export default class Movie extends Component {
 
   tapSearch = () => {
     Taro.navigateTo({
-      url:'../search/search'
+      url: '../search/search'
+    })
+  }
+
+  tapMore(id, e) {
+    console.log(id)
+    Taro.navigateTo({
+      url: `/pages/more/more?id=${id}`
     })
   }
 
@@ -64,23 +92,75 @@ export default class Movie extends Component {
 
   render() {
     const { subject } = this.state
-    const subjectArr = Object.values(subject)
     return (
       <View>
-        <Form bindsubmit="formSubmit">
-          <View class="search-form">
-            <Input type="text" placeholder='搜索' class="form__input" confirm-type='search' onFocus={this.tapSearch} />
+        <View class="search-form">
+          <View class="form__view" onClick={this.tapSearch}>
+            <Image src={search} />
+            <Text>搜索</Text>
           </View>
-        </Form>
-        {
-          subjectArr.map((item, index) => {
-            return (
-              <MovieBlock item={item} key={index} />
-            )
-          })
-        }
+        </View>
+        <View class='movie__block'>
+          <View class='block__bar'>
+            <Text class='bar__title'>影院热映</Text>
+            <View class='bar__more'>
+              <Text class='more__text' onClick={this.tapMore.bind(this, subject.movie_showing.subject_collection.id)}>查看更多</Text>
+              <Image class='more__icon' src={arrowRightPink} />
+            </View>
+          </View>
+          <MovieBlock item={subject.movie_showing} />
+        </View>
+        <View class='movie__block'>
+          <View class='block__bar'>
+            <Text class='bar__title'>豆瓣热映</Text>
+            <View class='bar__more'>
+              <Text class='more__text' onClick={this.tapMore.bind(this, subject.movie_hot_gaia.subject_collection.id)}>查看更多</Text>
+              <Image class='more__icon' src={arrowRightPink} />
+            </View>
+          </View>
+          <MovieBlock item={subject.movie_hot_gaia} />
+        </View>
+        <View class='movie__block'>
+          <View class='block__bar'>
+            <Text class='bar__title'>近期热门综艺</Text>
+            <View class='bar__more'>
+              <Text class='more__text' onClick={this.tapMore.bind(this, subject.tv_variety_show.subject_collection.id)}>查看更多</Text>
+              <Image class='more__icon' src={arrowRightPink} />
+            </View>
+          </View>
+          <MovieBlock item={subject.tv_variety_show} />
+        </View>
+        <View class='movie__block'>
+          <View class='block__bar'>
+            <Text class='bar__title'>近期热门剧集</Text>
+            <View class='bar__more'>
+              <Text class='more__text' onClick={this.tapMore.bind(this, subject.tv_hot.subject_collection.id)}>查看更多</Text>
+              <Image class='more__icon' src={arrowRightPink} />
+            </View>
+          </View>
+          <MovieBlock item={subject.tv_hot} />
+        </View>
+        <View class='movie__block'>
+          <View class='block__bar'>
+            <Text class='bar__title'>畅销图书</Text>
+            <View class='bar__more'>
+              <Text class='more__text' onClick={this.tapMore.bind(this, subject.book_bestseller.subject_collection.id)}>查看更多</Text>
+              <Image class='more__icon' src={arrowRightPink} />
+            </View>
+          </View>
+          <MovieBlock item={subject.book_bestseller} />
+        </View>
+        <View class='movie__block'>
+          <View class='block__bar'>
+            <Text class='bar__title'>热门单曲榜</Text>
+            <View class='bar__more'>
+              <Text class='more__text' onClick={this.tapMore.bind(this, subject.music_single.subject_collection.id)}>查看更多</Text>
+              <Image class='more__icon' src={arrowRightPink} />
+            </View>
+          </View>
+          <MovieBlock item={subject.music_single} />
+        </View>
       </View >
     )
   }
 }
-

@@ -1,53 +1,17 @@
-.movie{
-  &__block{
+.block{
+  &__scroll{
     display: flex;
-    flex-direction: column;
-    .block{
-      &__bar{
+    flex-direction: row;
+    .scroll{
+      &__row{
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
-        padding: 30rpx 20rpx 0rpx 20rpx;
-        .bar{
-          &__title{
-            font-size: 30rpx;
-            font-weight: 600;
-            color: #333333;
-          }
-          &__more{
+        padding: 20rpx 0 20rpx 20rpx;
+        .row{
+          &__poster{
             display: flex;
             flex-direction: row;
-            align-items: center;
-            .more{
-              &__text{
-                font-size: 28rpx;
-                font-weight: 300;
-                color: #f1a3c7;
-              }
-              &__icon{
-                width: 16rpx;
-                height: 20rpx;
-                padding-left: 6rpx; 
-              }
-            }
-          }
-        }
-      }
-      &__scroll{
-        display: flex;
-        flex-direction: row;
-        .scroll{
-          &__row{
-            display: flex;
-            flex-direction: row;
-            padding: 20rpx 0 20rpx 20rpx;
-            .row{
-              &__poster{
-                display: flex;
-                flex-direction: row;
-                margin-right: 10rpx;
-              }
-            }
+            margin-right: 10rpx;
           }
         }
       }

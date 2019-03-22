@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { httpMore } from '../../utils/http'
+import { http } from '../../utils/http'
 import { g_requestApi } from '../../globalData'
 import { ScrollView, View } from '@tarojs/components'
 import Poster from '../../components/poster/poster'
@@ -21,23 +21,27 @@ export default class More extends Component {
     })
   }
   componentWillMount() {
+    Taro.showLoading({
+      title: '正在加载'
+    })
     const id = this.$router.params.id
     const moreUrl = `${g_requestApi}subject_collection/${id}/items?start=0&count=20&apiKey=054022eaeae0b00e0fc068c0c0a2102a`
-    httpMore(moreUrl, this.processData)
-    Taro.showLoading({
-      title:'正在加载'
+    http.request(moreUrl).then((res) => {
+      this.processData(res)
     })
   }
 
-  componentDidMount(){
+  componentDidMount() {
     Taro.hideLoading()
   }
-  
+
   //加载更多
   loadMore = () => {
     let moreUrl = `${g_requestApi}subject_collection/${this.state.id}/items?start=${this.state.pageSize}&count=20&apiKey=054022eaeae0b00e0fc068c0c0a2102a`
     console.log('加载更多')
-    httpMore(moreUrl, this.processData)
+    http.request(moreUrl).then((res) => {
+      this.processData(res)
+    })
   }
 
   //防抖函数
@@ -51,7 +55,7 @@ export default class More extends Component {
     }
   }
 
-  handleLoadMore = this.debounce(this.loadMore)
+  handleLoadMore = this.debounce(this.loadMore, 1000)
 
   processData = (data) => {
     let page = this.state.page + 1
@@ -70,17 +74,13 @@ export default class More extends Component {
         page: page,
         pageSize: pageSize
       })
-    } else {
-      Taro.showToast({
-        title: '没有更多数据'
-      })
     }
   }
 
   render() {
     const { subject_collection_items } = this.state
     return (
-      <ScrollView class='more__container' scroll-y={true} onScrollToLower={this.handleLoadMore}>
+      <ScrollView class='more__container' scroll-y={true} onScrollToLower={this.handleLoadMore} lowerThreshold={100}>
         {
           subject_collection_items.map(item => {
             return (

@@ -1,34 +1,24 @@
 import Taro from '@tarojs/taro'
 
-const httpMore = (url, callBack) => {
-  Taro.request({
-    url: url,
-    method: 'GET',
-    header: {
-      "Content-Type": "json"
-    },
-    success: function (res) {
-      callBack(res.data);
-    },
-    fail: function (error) {
-      console.log(error)
-    }
-  })
+class Http {
+  request(url) {
+    let promise = new Promise((resolve, reject) => {
+      Taro.request({
+        url: url,
+        method: 'GET',
+        header: {
+          "Content-Type": "json"
+        },
+        success: function (res) {
+          resolve(res.data)
+        },
+        error: function (error) {
+          reject(error)
+        }
+      })
+    })
+    return promise
+  }
 }
 
-const httpBlock = (url, key, callBack) => {
-  Taro.request({
-    url: url,
-    method: 'GET',
-    header: {
-      "Content-Type": "json"
-    },
-    success: function (res) {
-      callBack(key, res.data);
-    },
-    fail: function (error) {
-      console.log(error)
-    }
-  })
-}
-export { httpMore, httpBlock }
+export const http = new Http()

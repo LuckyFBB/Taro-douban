@@ -1,0 +1,42 @@
+.bottom{
+  &__item{
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 30rpx;
+    .item{
+      &__img{
+        position: relative;
+        height: 200rpx;
+        width: 200rpx;
+        image{
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          border-radius: 10px;
+        }
+      }
+      &__movie{
+        flex: 1;
+        margin: 10rpx 0;
+        padding: 6rpx 0 6rpx 40rpx;
+        border-top: 1px solid #eee;
+        border-right: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+        border-radius: 0 10px 0 10px;
+        .movie{
+          &__name{
+            color: #757575;
+            font-size: 28rpx;
+          }
+          &__rating{
+            padding-left: 10rpx;
+            font-size: 24rpx;
+            color: #FFD700;
+          }
+        }
+      }
+    }
+  }
+}
