@@ -1,4 +1,11 @@
+/*
+ * @Author: FBB
+ * @Date: 2019-03-22 20:55:42
+ * @LastEditors: FBB
+ * @LastEditTime: 2019-08-20 21:47:29
+ */
 import Taro, { Component } from "@tarojs/taro";
+import './list-top.less'
 
 export default class ListTop extends Component {
   render() {

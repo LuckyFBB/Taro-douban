@@ -1,5 +1,12 @@
+/*
+ * @Author: FBB
+ * @Date: 2019-03-22 20:53:17
+ * @LastEditors: FBB
+ * @LastEditTime: 2019-03-22 20:53:17
+ */
 import { Component } from "@tarojs/taro";
-
+import './list-bottom.less'
+  
 export default class ListBottom extends Component {
   render() {
     const { item } = this.props
