@@ -12,6 +12,8 @@
 		"autoAudits": false
 	},
 	"compileType": "miniprogram",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -39,9 +41,10 @@
 				},
 				{
 					"id": 1,
-					"name": "detail",
-					"pathName": "pages/detail/detail",
-					"query": "type=movie&id=26796664"
+					"name": "pages/mine/mine",
+					"pathName": "pages/mine/mine",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

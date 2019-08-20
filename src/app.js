@@ -1,3 +1,9 @@
+/*
+ * @Author: FBB
+ * @Date: 2019-02-14 14:28:22
+ * @LastEditors: FBB
+ * @LastEditTime: 2019-08-20 21:52:54
+ */
 import Taro, { Component } from '@tarojs/taro'
 import Movie from './pages/movie'
 
@@ -17,7 +23,8 @@ class App extends Component {
       'pages/more/more',
       'pages/detail/detail',
       'pages/search/search',
-      'pages/list/list'
+      'pages/list/list',
+      'pages/mine/mine'
     ],
     window: {
       backgroundTextStyle: "light",
@@ -40,7 +47,7 @@ class App extends Component {
           selectedIconPath: "./images/icon/list-active.png"
         },
         {
-          pagePath: "pages/movie/movie",
+          pagePath: "pages/mine/mine",
           text: "我的",
           iconPath: "./images/icon/mine.png",
           selectedIconPath: "./images/icon/mine-active.png"

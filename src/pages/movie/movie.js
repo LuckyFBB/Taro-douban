@@ -1,3 +1,9 @@
+/*
+ * @Author: FBB
+ * @Date: 2019-02-14 14:28:22
+ * @LastEditors: FBB
+ * @LastEditTime: 2019-08-20 21:56:27
+ */
 import Taro, { Component } from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import { g_requestApi } from '../../globalData'
@@ -26,31 +32,7 @@ export default class Movie extends Component {
     }
   }
 
-  componentWillMount() {
-    Taro.getSetting({
-      success(res) {
-        if (!res.authSetting['scope.userLocation']) {
-          Taro.authorize({
-            scope: 'scope.userLocation'
-          })
-        }
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          Taro.getUserInfo({
-            success: res => {
-              // 可以将 res 发送给后台解码出 unionId
-              console.log(res.userInfo)
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
-            }
-          })
-        }
-      }
-    })
-
+  componentDidMount() {
     Taro.showLoading({
       title: '正在加载'
     })
@@ -62,10 +44,6 @@ export default class Movie extends Component {
         this.processData(element, res)
       })
     }
-  }
-
-  componentDidMount() {
-    console.log(this.state)
     Taro.hideLoading()
   }
 
